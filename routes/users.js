@@ -11,7 +11,7 @@ app.get('/', function(req, res) {
 
 app.get('/register', function(req, res) {
     res.render('register.html', { locals: {
-        msgExists: ''
+        msgExists:  req.flash('signupMessage')
     }});
 });
 
@@ -23,15 +23,15 @@ app.post('/register', passport.authenticate('local-register', {
 
 app.get('/login', function(req, res) {
     res.render('login.html', { locals: {
-        msgExists: ''
+        msgExists: req.flash('loginMessage')
     }});
 });
 
 app.post('/login', passport.authenticate('local-login', {
-        successRedirect : '/profile',
-        failureRedirect : '/login',
-        failureFlash : true
-    }));
+    successRedirect : '/profile',
+    failureRedirect : '/login',
+    failureFlash : true
+}));
 
 app.get('/profile', isLoggedIn, function(req, res) {
     res.render('profile.html', { locals: {
