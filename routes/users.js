@@ -1,5 +1,6 @@
 // routes/users.js
 const User = require('../models/user');
+const Task = require('../models/task');
 
 module.exports = function(app, passport) {
 
@@ -15,8 +16,10 @@ app.get('/register', function(req, res) {
     }});
 });
 
+// CREATE
 app.post('/register', passport.authenticate('local-register', {
     successRedirect : '/profile', // redirect to the secure profile section
+    successFlash : true,
     failureRedirect : '/register', // redirect back to the signup page if there is an error
     failureFlash : true // allow flash messages
 }));
@@ -33,12 +36,19 @@ app.post('/login', passport.authenticate('local-login', {
     failureFlash : true
 }));
 
-app.get('/profile', isLoggedIn, function(req, res) {
-    res.render('profile.html', { locals: {
-        msgExists: '',
-        name: req.user.name,
-        email: req.user.email
-    }});
+app.get('/profile', isLoggedIn, async function(req, res) {
+    try {
+        let tasks = await Task.find({ owner: req.user._id });
+    
+        res.render('profile.html', { locals: {
+            tasks: tasks,
+            msgExists: '',
+            name: req.user.name,
+            email: req.user.email
+        }});
+    } catch (e) {
+        res.status(500).send(e);
+    }
 });
 
 app.get('/users', isLoggedIn, async function(req, res) {
@@ -53,15 +63,45 @@ app.get('/users', isLoggedIn, async function(req, res) {
     } catch (e) {
         res.status(500).send(e);
     }
-  });
+});
 
-app.get('/logout', function(req, res) {
+// UPDATE USER
+app.get('/users/edit', isLoggedIn, function(req, res) {
+    res.render('edit.html');
+});
+
+app.post('/users/edit', isLoggedIn, async function(req, res) {
+    // console.log(req.user);
+    let id = req.user._id;
+    try {
+        let user = await User.findById({ id });
+        user.name = req.user.name;
+        res.json(user);
+    } catch (e) {
+        res.status(500).send(e);
+    }
+});
+
+// DELETE USER
+app.post('/users/me', isLoggedIn, async function(req, res) {
+    let id = req.user._id;
+    try {
+        // delete tasks for that account first
+        await Task.deleteMany({ owner: id });
+        // then delete the account
+        await User.findByIdAndDelete(id);
+        res.render('index', { locals: { msgExists: 'Account deleted.' }});
+    } catch (e) {
+        res.status(500).send(e);
+    }
+});
+
+app.get('/logout', isLoggedIn, function(req, res) {
     req.logout();
     res.redirect('/');
 });
 
 };
-
 
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())

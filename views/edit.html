@@ -8,12 +8,11 @@
     <link rel='stylesheet' href='../public/css/style.css'>
 </head>
 <body>
-    <h1>Welcome Page</h1>
+    <h1>Edit Profile Page</h1>
     <p class='message'>${msgExists ? `${msgExists}` : `` }</p>
-    <span><a href='/register'>Register</a></span>
-    <span><a href='/login'>Login</a></span>
-    <span><a href='/logout'>Logout</a></span>
-    <span><a href='/profile'>My Profile</a></span>
-    <span><a href='/users'>View All Users</a></span>
-</body>
-</html>
+    <form action='/users/edit' method='POST'>
+        <label for='name'>Name:</label>
+        <input type='text' name='name' id='name' required>
+        <input type='submit' value='Update'>
+    </form>
+    <p>Back to <a href='/'>Home</a>.</p>

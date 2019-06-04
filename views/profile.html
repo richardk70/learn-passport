@@ -5,18 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Learn Passport</title>
+    <script src="https://kit.fontawesome.com/dfc47fead6.js"></script>
+    <link rel='stylesheet' href='../public/css/style.css'>
 </head>
 <body>
     <h1>Profile Page</h1>
     <p class='message'>${msgExists ? `${msgExists}` : `` }</p>
-    <div>
-        <span>Username:</span><span>${name}</span>
+    <div class='row'>
+        <div class='cell left'>
+            <div>
+                <span>Username:</span><span>${name}</span>
+            </div>
+            <div>
+                <span>Email address:</span><span>${email}</span>
+            </div>
+        </div>
+        <div class='cell right'>
+                <div><form method='POST' action='/users/edit'>
+                    <input type='submit' value='Edit Information'>
+                </form></div>
+                <div><form method='POST' action='/users/me'>
+                    <input type='submit' value='DELETE ACCOUNT'>
+                </form></div>
+        </div>
     </div>
-    <div>
-        <span>Email address:</span><span>${email}</span>
+    <div><p>${name}'s Tasks</p></div>
+    <hr>
+    <ul>
+        ${tasks.map(t => `
+
+            <li><div class='row'>
+                <div class='cell'>
+                    <span class='description' id='taskContent'>${t.description}</span><br>
+                    <span>Status: ${t.complete}</span><span class='hidden' id='taskId'>${t._id}</span>
+        </div>
+            <div class='cell row'>
+                <span class='cell span-edit'><i class='fas fa-edit fa-2x' id='editBtn'></i></span>
+                <span class='cell span-delete'><i class='fas fa-trash-alt fa-2x' id='delBtn'></i></span>
+            </div>
+            </div>
+            </li>
+        `).join('')}
+        <li><form method='POST' action='/tasks' id='addTasks'>
+            <input id='addDescription' type='text' name='description' placeholder='description'>
+            <select name='taskStatus' form='addTasks'>
+                <option value='not started'>Not started</option>
+                <option value='in process'>In process</option>
+                <option value='complete'>Complete</option>
+            </select>
+            <input type='submit' value='Add'>
+        </form></li>
+    </ul>
+
+    <div id='editModal' class='modal hidden'>
+        <form method='POST' action='/tasks/edit' id='editTasks'>
+            <label for='editDescription'>Update description:</label><br>
+            <input id='editDescription' type='text' name='description'>
+            <label for='editStatus'>Update status:</label><br>
+            <select id='editStatus' name='taskStatus' form='editTasks'>
+                <option value='not started'>Not started</option>
+                <option value='in process'>In process</option>
+                <option value='complete'>Complete</option>
+            </select>
+            <input type='submit' value='Apply Edits'>
+        </form>
     </div>
+
+    <span><a href='/'>Home</a></span>
     <span><a href='/users'>See all users</a></span>
     <span><a href='/logout'>Logout</a></span>
-    <span><a href='/'>Home</a></span>
+
+    <script src='../public/js/profile.js'></script>
 </body>
 </html>

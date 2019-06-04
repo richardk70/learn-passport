@@ -8,18 +8,18 @@
     <link rel='stylesheet' href='../public/css/style.css'>
 </head>
 <body>
-    <h1>Login Page</h1>
+    <h1>Edit Task Page</h1>
     <p class='message'>${msgExists ? `${msgExists}` : `` }</p>
-    <form action='/login' method='POST'>
+    <form action='/tasks/' method='POST'>
+        <label for='name'>Name:</label>
+        <input type='text' name='name' id='name' required><br>
         <label for='email'>Email:</label>
         <input type='text' name='email' id='email' required><br>
-        <label for='password'>Password:</label>
-        <input type='password' name='password' id='password' placeholder="enter password" required><br>
-        <input type='submit' value='Login'>
-
+        <label for='password1'>Password:</label>
+        <input type='password' name='password' id='password1' required><br>
+        <input type='submit' value='Register'>
     </form>
-    <p>Need an account? <a href='/register'>Register</a></p>
+    <p>Already have an account? <a href='/login'>Login</a></p>
     <p>Or back to <a href='/'>Home</a>.</p>
-
 </body>
 </html>

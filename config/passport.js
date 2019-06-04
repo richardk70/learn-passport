@@ -22,7 +22,6 @@ passport.use('local-login', new LocalStrategy({
     passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
 },
 function(req, email, password, done) {
-    console.log('local-login');
     // asynchronous
     process.nextTick(function() {
         User.findOne({ email :  email }, function(err, user) {
@@ -48,11 +47,10 @@ function(req, email, password, done) {
 passport.use('local-register', new LocalStrategy({
     // by default, local strategy uses username and password, we will override with email
     usernameField : 'email',
-    passwordField : 'password',
+    passwordField : 'password1',
     passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
 },
-function(req, email, password, done) {
-    console.log('local-register');
+function(req, email, password1, done) {
     // asynchronous
         process.nextTick(function() {
             // if the user is not already logged in:
@@ -61,21 +59,25 @@ function(req, email, password, done) {
                     // if there are any errors, return the error
                     if (err)
                         return done(err);
-                    // check to see if theres already a user with that email
-                    if (user) {
+                    // make sure passwords match
+                    if (req.body.password1 !== req.body.password2)
+                        return done(null, false, req.flash('signupMessage', 'Passwords do not match.'));
+                    
+                        // check to see if theres already a user with that email
+                    else if (user) {
                         return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
                     } else {
-                        // create the user
+                        // else create the user
                         var newUser = new User();
                         newUser.name = req.body.name;
                         newUser.email    = email;
-                        newUser.password = newUser.setPassword(password);
+                        newUser.password = newUser.setPassword(password1);
 
                         newUser.save(function(err) {
                             if (err)
                                 return done(err);
 
-                            return done(null, newUser);
+                            return done(null, newUser, req.flash('signupMessage', 'User created and logged in.'));
                         });
                     }
                 });
