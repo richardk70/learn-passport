@@ -35,7 +35,7 @@ app.use(bodyParser.json());
 app.use(flash());
 app.use(session({ 
     secret: process.env.SECRET,
-    cookie: { maxAge: 60000 },
+    cookie: { maxAge: 300000 },
     resave: false,
     saveUninitialized: false
 }));

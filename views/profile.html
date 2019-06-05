@@ -37,7 +37,8 @@
             <li><div class='row'>
                 <div class='cell'>
                     <span class='description' id='taskContent'>${t.description}</span><br>
-                    <span>Status: ${t.complete}</span><span class='hidden' id='taskId'>${t._id}</span>
+                    <span class='status' id='taskStatus'>${t.complete}</span>
+                    <span class='hidden' id='taskId'>${t._id}</span>
         </div>
             <div class='cell row'>
                 <span class='cell span-edit'><i class='fas fa-edit fa-2x' id='editBtn'></i></span>
@@ -53,12 +54,12 @@
                 <option value='in process'>In process</option>
                 <option value='complete'>Complete</option>
             </select>
-            <input type='submit' value='Add'>
+            <input class='btn' type='submit' value='Add Task'>
         </form></li>
     </ul>
 
     <div id='editModal' class='modal hidden'>
-        <form method='POST' action='/tasks/edit' id='editTasks'>
+            <div class='hidden' id='editID'></div>
             <label for='editDescription'>Update description:</label><br>
             <input id='editDescription' type='text' name='description'>
             <label for='editStatus'>Update status:</label><br>
@@ -67,8 +68,7 @@
                 <option value='in process'>In process</option>
                 <option value='complete'>Complete</option>
             </select>
-            <input type='submit' value='Apply Edits'>
-        </form>
+            <button class='btn' type='submit' id='applyEditsBtn'>Apply Edits</button>
     </div>
 
     <span><a href='/'>Home</a></span>

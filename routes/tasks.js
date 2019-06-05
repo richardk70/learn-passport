@@ -31,35 +31,11 @@ module.exports = function(app) {
     });
 
     // UPDATE
-    app.patch('/tasks/:id', isLoggedIn, async function(req, res) {
-        const updates = Object.keys(req.body);
-        const allowedUpdates = ['description', 'complete'];
-        const isValidOperation = updates.every((update) => {
-            return allowedUpdates.includes(udpate);
-        });
-        if (!isValidOperation)
-            return res.status(400).send({ error: 'Inavlid update.' });
-
-        let _id = req.params.id;
-        try {
-            const task = await Task.findById({ _id, owner: req.user._id });
-            if (!task)
-                res.status(404).send();
-
-            updates.forEach((update) => task[update] = req.body[update]);
-            await task.save();
-            res.send(task)
-        } catch (e) {
-            res.status(500).send(e);
-        }
-    });
-
-    // EDIT
-    app.post('/tasks/edit', isLoggedIn, async function(req, res) {
+    app.patch('/tasks', isLoggedIn, async function(req, res) {
         console.log(req.body);
-        let owner = req.body;
+        let id = req.body.owner;
         try {
-            let task = await Task.findById({ id, owner: req.user._id });
+            let task = await Task.findById({ _id: id });
             if (!task)
                 res.status(404).send();
 
@@ -67,9 +43,6 @@ module.exports = function(app) {
             task.description = req.body.description;
             task.complete = req.body.complete;
             await task.save();
-            res.send(task);
-            // res.redirect(303, '/profile');
-
         } catch (e) {
             res.status(500).send(e);
         }
@@ -77,16 +50,17 @@ module.exports = function(app) {
 
     // DELETE
     app.delete('/tasks', isLoggedIn, async function(req, res) {
-        console.log(req.body);
+        // console.log(req.user); // shows user info 
+        // console.log(req.body); // shows { id: 'Object ID number' }
+
         let id = req.body.id;
-        // let id = ObjectID.fromString(req.body.id);
+
         try {
-            let task = await Task.findByIdAndDelete({ id, owner: req.user._id });
+            let task = await Task.findByIdAndDelete({ _id: id, owner: req.user._id });
             if (!task)
                 res.status(404).send();
-
-            // using 303 changes it to a GET request
-            res.redirect(303, '/profile');
+                
+            task.remove();
         } catch (e) {
             res.status(500).send(e);
         }

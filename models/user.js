@@ -25,7 +25,7 @@ const userSchema = new Schema({
     password: {
         type: String,
         trim: true,
-        minlength: 4,
+        minlength: 1,
         required: true 
     }
 }, { timestamps: true });
