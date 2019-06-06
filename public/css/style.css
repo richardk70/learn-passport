@@ -16,8 +16,6 @@ body {
 .message {
     width: 50%;
     position: relative;
-    /* left: 50%; */
-    /* transform: translateX(-50%); */
     background:#ffdfdd;
     border: 1px solid red;
     border-radius: 5px;
@@ -26,9 +24,24 @@ body {
     font-weight: 500;
 }
 
+.small {
+    font-size: 0.6rem;
+}
+.center {
+    text-align: center;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
 li {
     list-style: none;
-    margin: 10px;
+}
+
+.left {
+    min-width: 220px;
 }
 
 .description {
@@ -41,34 +54,58 @@ li {
     font-style: italic;
 }
 
-.btn {
-    cursor: pointer;
-    padding: 2px 8px;
-    color: #ccc;
-    background: #4863a0;
+label {
+    font-size: 0.8rem;
+}
+
+button {
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: white;
     font-weight: 600;
     border-radius: 4px;
-    border: none;
-    padding: 6px 20px;
+    margin: 4px;
 }
 
-.btn:hover{
-    color: white;
+.redBG {
+    background: #9f000f;
+}
+.redBG:hover{
+    background: #e41b17;
+}
+
+.red {
+    color: #9f000f;
+}
+.red:hover{
+    color: #e41b17;
+}
+.blueBG {
+    background: #4863a0; 
+}
+.blueBG:hover {
     background: #737ca1;
 }
+.blue {
+    color: #4863a0; 
+}
+.blue:hover {
+    color: #737ca1;
+}
 
-.span-edit {
+.green {
     color: green;
 }
-.span-edit:hover {
-    color: limegreen;
+.green:hover{
+    color: lime;
 }
 
-.span-delete {
-    color: brown;
+.greenBG {
+    background: green;
 }
-.span-delete:hover {
-    color: red;
+.greenBG:hover{
+    background: lime;
 }
 
 .modal {
@@ -86,4 +123,32 @@ li {
 
 .modal > * {
     padding: 5px;
+}
+
+.tooltip span {
+
+    max-height: 50px;
+}
+
+.tooltip p {
+    position: relative;
+    top: -10px;
+    left: -33%;
+    border-radius: 4px;
+    background: #fff8c6;
+    color: black;
+    font-size: 0.8rem;
+    text-align: center;
+    box-shadow: 2px 2px 4px black;
+    padding: 4px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.tooltip span:hover p{
+    opacity: 1;
+}
+
+footer {
+    margin-top: 20px;
 }

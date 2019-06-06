@@ -27,6 +27,13 @@ const userSchema = new Schema({
         trim: true,
         minlength: 1,
         required: true 
+    },
+    photo: {
+        type: Buffer,
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false
     }
 }, { timestamps: true });
 

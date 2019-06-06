@@ -1,4 +1,7 @@
 // routes/tasks.js
+const multer = require('multer');
+const sharp = require('sharp');
+
 const Task = require('../models/task');
 
 module.exports = function(app) {
@@ -32,7 +35,6 @@ module.exports = function(app) {
 
     // UPDATE
     app.patch('/tasks', isLoggedIn, async function(req, res) {
-        console.log(req.body);
         let id = req.body.owner;
         try {
             let task = await Task.findById({ _id: id });
@@ -65,6 +67,61 @@ module.exports = function(app) {
             res.status(500).send(e);
         }
     });
+
+    // TASK PHOTO FUNCTIONS
+    // upload
+    const upload = multer({
+        limits: {
+            fileSize: 2000000,
+        },
+        fileFilter(req, file, callback) {
+            let temp = file.originalname.toLowerCase();
+            if (!temp.match(/\.(jpg|png|jpeg)$/)) 
+                // if not above types
+                return callback(new Error('File must be an image file.'));
+            if (file.fileSize > 2000000)
+                return callback(new Error('File must be under 2 MB in size.'));
+
+            // if it passes
+            callback(undefined, true);
+        }
+    });
+
+    app.post('/tasks/photo', isLoggedIn, upload.single('photo'), async function(req, res) {
+        const buffer = await sharp(req.file.buffer)
+            .resize( {width: 100, height: 100 })
+            .png()
+            .toBuffer();
+        req.task.photo = buffer;
+        await req.task.save();
+        res.send();
+    }, (error, req, res, next) => {
+        res.status(400).send({ error:err.message });
+    });
+
+    app.delete('/tasks/photo', isLoggedIn, async function(req, res) {
+        try {
+            req.task.photo = undefined;
+            await req.task.save();
+            res.send();
+        } catch (e) {
+            res.status(500).send(e);
+        }
+    });
+
+    app.get('/tasks/photo', async function(res, res) {
+        try {
+            let task = await Task.findById(req.params.id);
+            if (!task || !task.photo)
+                throw new Error();
+
+            res.set('Content-Type', 'image/png');
+            res.send(task.photo);
+        } catch (e) {
+            res.status(404).send(e);
+        }
+    });
+
 }
 
 function isLoggedIn(req, res, next) {

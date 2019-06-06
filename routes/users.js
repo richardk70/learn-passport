@@ -1,4 +1,7 @@
 // routes/users.js
+const multer = require('multer');
+const sharp = require('sharp');
+
 const User = require('../models/user');
 const Task = require('../models/task');
 
@@ -36,15 +39,19 @@ app.post('/login', passport.authenticate('local-login', {
     failureFlash : true
 }));
 
+// PROFILE
 app.get('/profile', isLoggedIn, async function(req, res) {
+    console.log(req.user.photo);
+    
     try {
         let tasks = await Task.find({ owner: req.user._id });
-    
+
         res.render('profile.html', { locals: {
             tasks: tasks,
             msgExists: '',
             name: req.user.name,
-            email: req.user.email
+            email: req.user.email,
+            photo: req.user.photo
         }});
     } catch (e) {
         res.status(500).send(e);
@@ -66,17 +73,20 @@ app.get('/users', isLoggedIn, async function(req, res) {
 });
 
 // UPDATE USER
-app.get('/users/edit', isLoggedIn, function(req, res) {
-    res.render('edit.html');
-});
-
-app.post('/users/edit', isLoggedIn, async function(req, res) {
-    // console.log(req.user);
+app.patch('/users', isLoggedIn, async function(req, res) {
+    console.log(req.user);
+    console.log(req.body);
     let id = req.user._id;
+    let password = req.body.password;
     try {
-        let user = await User.findById({ id });
-        user.name = req.user.name;
-        res.json(user);
+        let user = await User.findById({ _id: id });
+        if (!user)
+            res.status(404).send();
+
+        user.name = req.body.name;
+        if (password)
+            user.password = user.setPassword(password);
+        await user.save();
     } catch (e) {
         res.status(500).send(e);
     }
@@ -93,13 +103,68 @@ app.post('/users/me', isLoggedIn, async function(req, res) {
         res.render('index', { locals: { msgExists: 'Account deleted.' }});
     } catch (e) {
         res.status(500).send(e);
-    }
+    }  
 });
 
 app.get('/logout', isLoggedIn, function(req, res) {
     req.logout();
     res.redirect('/');
 });
+
+// PROFILE PHOTO FUNCTIONS
+// upload profile photo
+const upload = multer({
+    dest: 'images',
+    limits: {
+        fileSize: 2000000,
+    },
+    fileFilter(req, file, callback) {
+        let temp = file.originalname.toLowerCase();
+        if (!temp.match(/\.(jpg|png|jpeg)$/)) {
+            // if it is not of above types
+            return callback(new Error('File must be an image file.'));
+        }
+        if (file.fileSize > 2000000)
+            return callback(new Error('File must be under 2 MB in size.'));
+        // if it passes
+        callback(undefined, true);
+    }
+});
+
+app.post('/users/photo', isLoggedIn, upload.single('photo'), async function(req, res) {
+    const buffer = await sharp(req.file.buffer)
+        .resize( { width: 200, height: 240 })
+        .png()
+        .toBuffer();
+    req.user.photo = buffer;
+    await req.user.save();
+    res.send();
+}, (error, req, res, next) => {
+    res.status(400).send({ error:err.message });
+});
+
+app.delete('/users/photo', isLoggedIn, async function(req, res) {
+    try {
+        req.user.photo = undefined;
+        await req.user.save();
+        res.send();
+    } catch (e) {
+        res.status(500).send(e);
+    }
+});
+
+app.get('/users/:id/photo', async function(req, res) {
+    try {
+        let user = await User.findById(req.params.id);
+        if (!user || !user.photo)
+            throw new Error();
+
+        res.set('Content-Type', 'image/png');
+        res.send(user.photo);
+    } catch (e) {
+        res.status(404).send(e);
+    }
+})
 
 };
 
