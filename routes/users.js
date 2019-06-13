@@ -1,6 +1,7 @@
 // routes/users.js
 const multer = require('multer');
 const sharp = require('sharp');
+const fs = require('fs');
 
 const User = require('../models/user');
 const Task = require('../models/task');
@@ -41,17 +42,33 @@ app.post('/login', passport.authenticate('local-login', {
 
 // PROFILE
 app.get('/profile', isLoggedIn, async function(req, res) {
-    console.log(req.user.photo);
-    
     try {
         let tasks = await Task.find({ owner: req.user._id });
+        
+        // go through all the tasks and assign a generic task image
+        for (task of tasks) {
+            if (!task.photo) {
+                let buffer = fs.readFileSync('./public/images/generic_task.jpg');
+                task.photo = buffer;
+                await task.save();
+            }
+        }
+
+        
+        if (!req.user.photo) {
+            console.log('no profile photo for this user. using default...');
+            // set it to the generic image
+            let buffer = fs.readFileSync('./public/images/generic_profile.jpg');
+            req.user.photo = buffer;
+            await req.user.save();
+        }
 
         res.render('profile.html', { locals: {
             tasks: tasks,
             msgExists: '',
             name: req.user.name,
             email: req.user.email,
-            photo: req.user.photo
+            photo: req.user.photo.toString('base64')
         }});
     } catch (e) {
         res.status(500).send(e);
@@ -114,7 +131,6 @@ app.get('/logout', isLoggedIn, function(req, res) {
 // PROFILE PHOTO FUNCTIONS
 // upload profile photo
 const upload = multer({
-    dest: 'images',
     limits: {
         fileSize: 2000000,
     },
@@ -132,15 +148,12 @@ const upload = multer({
 });
 
 app.post('/users/photo', isLoggedIn, upload.single('photo'), async function(req, res) {
-    const buffer = await sharp(req.file.buffer)
-        .resize( { width: 200, height: 240 })
-        .png()
-        .toBuffer();
+    let buffer = await sharp(req.file.buffer).resize( { width: 200, height: 240 }).png().toBuffer();
     req.user.photo = buffer;
     await req.user.save();
-    res.send();
+    res.redirect('/profile');
 }, (error, req, res, next) => {
-    res.status(400).send({ error:err.message });
+    res.status(400).send({error:error.message});
 });
 
 app.delete('/users/photo', isLoggedIn, async function(req, res) {

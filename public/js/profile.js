@@ -1,19 +1,66 @@
 var editProfileBtn = document.getElementById('editProfileBtn');
 var taskId = document.getElementById('taskId');
+var addEditPhoto = document.getElementById('addEditPhoto');
+const addTaskPhotoBtn = document.getElementById('addTaskPhotoBtn');
+const delAccountBtn = document.getElementById('delAccountBtn');
+const delTaskBtn = document.getElementById('delTaskBtn');
+const editTaskBtn = document.getElementById('editTaskBtn');
 
-// ADD / EDIT PHOTO
-document.getElementById('addEditPhoto').addEventListener('click', () => {
-    // made the photo modal appear
-    var photoModal = document.getElementById('photoModal');
-    photoModal.style.display = 'block';
-    
-})
+
+// ADD / EDIT USER PHOTO
+addEditPhoto.addEventListener('click', () => {
+    let box = addEditPhoto.getBoundingClientRect();
+
+    // made the photo modal appear in appropriate spot
+    var userPhotoModal = document.getElementById('userPhotoModal');
+    userPhotoModal.style.display = 'block';
+    userPhotoModal.style.top = box.top + 'px';
+    userPhotoModal.style.left = box.left + 'px';
+
+    // cancel button
+    document.getElementById('cancelUserAddPhotoBtn').addEventListener('click', () => {
+        userPhotoModal.style.display = 'none';
+    });
+
+    // apply Use This Photo button?
+    document.getElementById('applyUserAddPhotoBtn').addEventListener('click', () => {
+        userPhotoModal.style.display = 'none';
+    });
+});
+
+// ADD / EDIT TASK PHOTO
+addTaskPhotoBtn.addEventListener('click', () => {
+    let box = addTaskPhotoBtn.getBoundingClientRect();
+
+    // made the photo modal appear in appropriate spot
+    var taskPhotoModal = document.getElementById('taskPhotoModal');
+    taskPhotoModal.style.display = 'block';
+    taskPhotoModal.style.top = box.top + 'px';
+    taskPhotoModal.style.left = box.left + 'px';
+
+    // show ID
+    let taskNum = document.getElementById('taskNum');
+    taskNum.value = taskId.innerHTML;
+
+    // cancel button
+    document.getElementById('cancelTaskAddPhotoBtn').addEventListener('click', () => {
+        taskPhotoModal.style.display = 'none';
+    });
+
+    // apply Use This Photo button?
+    document.getElementById('applyTaskAddPhotoBtn').addEventListener('click', () => {
+        taskPhotoModal.style.display = 'none';
+    });
+});
 
 // UPDATE USER
 editProfileBtn.addEventListener('click', () => {
-    // make the user modal appear
+    // make the user modal appear in appropriate spot
+    let box = editProfileBtn.getBoundingClientRect();
     var profileEditModal = document.getElementById('profileEditModal');
     profileEditModal.style.display = 'block';
+    profileEditModal.style.top = box.top + 30 + 'px';
+    profileEditModal.style.left = box.left + 'px';
 
     // prefill fields
     var editName = document.getElementById('editName');
@@ -60,10 +107,13 @@ editProfileBtn.addEventListener('click', () => {
 });
 
 // DELETE USER
-document.getElementById('delAccountBtn').addEventListener('click', () => {
+delAccountBtn.addEventListener('click', () => {
+    let box = delAccountBtn.getBoundingClientRect();
     // show modal
     var userDeleteModal = document.getElementById('userDeleteModal');
     userDeleteModal.style.display = 'block';
+    userDeleteModal.style.top = box.top + 'px';
+    userDeleteModal.style.left = box.left - (box.width/2) + 'px';
 
     // cancel delete
     document.getElementById('cancelAccountDeleteBtn').addEventListener('click', () => {
@@ -75,9 +125,13 @@ document.getElementById('delAccountBtn').addEventListener('click', () => {
 });
 
 // DELETE TASK
-document.getElementById('delTaskBtn').addEventListener('click', () => {
+delTaskBtn.addEventListener('click', () => {
     // show modal
-    document.getElementById('taskDeleteModal').style.display = 'block';
+    let box = delTaskBtn.getBoundingClientRect();
+    let taskDeleteModal = document.getElementById('taskDeleteModal');
+    taskDeleteModal.style.display = 'block';
+    taskDeleteModal.style.top = box.top + 'px';
+    taskDeleteModal.style.left = box.left - 100 + 'px';
 
     // cancel delete
     document.getElementById('cancelTaskDeleteBtn').addEventListener('click', () => {
@@ -104,10 +158,14 @@ document.getElementById('delTaskBtn').addEventListener('click', () => {
 });
 
 // UPDATE TASK
-document.getElementById('editTaskBtn').addEventListener('click', () => {
+editTaskBtn.addEventListener('click', () => {
     // make the modal appear
+    let box = editTaskBtn.getBoundingClientRect();
     var taskEditModal = document.getElementById('taskEditModal');
     taskEditModal.style.display = 'block';
+    taskEditModal.style.top = box.top + 'px';
+    taskEditModal.style.left = box.left + 'px';
+
     // prefill fields
     var editDescription = document.getElementById('editDescription');
     var taskContent = document.getElementById('taskContent');

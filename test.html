@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Rendering Testing</title>
+    <style>
+        body {
+            user-select: none;
+        }
+        #choices {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id='choices'>
+        <div class='choice' id='div1'>Div 1</div>
+        <div class='choice' id='div2'>Div 2</div>
+        <div class='choice' id='div3'>Div 3</div>
+    </div>
+    <div id='fb'></div>
+
+    <script>
+        const choicesDiv = document.getElementById('choices');
+        const fb = document.getElementById('fb');
+        var choices = document.getElementsByClassName('choice');
+        choicesDiv.addEventListener('click', (e) => {
+            for (var i = 0; i < choices.length; i++) {
+                if (choices[i].target.id == 'div2')
+                    console.log('second one');
+            }
+            //fb.innerHTML = e.target.id;
+        });
+        
+    </script>    
+</body>
+</html>

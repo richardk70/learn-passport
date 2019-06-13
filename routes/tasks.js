@@ -88,13 +88,11 @@ module.exports = function(app) {
     });
 
     app.post('/tasks/photo', isLoggedIn, upload.single('photo'), async function(req, res) {
-        const buffer = await sharp(req.file.buffer)
-            .resize( {width: 100, height: 100 })
-            .png()
-            .toBuffer();
-        req.task.photo = buffer;
-        await req.task.save();
-        res.send();
+        let task = await Task.findById(req.body.taskNum);
+        const buffer = await sharp(req.file.buffer).resize( {width: 100, height: 100 }).png().toBuffer();
+        task.photo = buffer;
+        await task.save();
+        res.redirect('/profile');
     }, (error, req, res, next) => {
         res.status(400).send({ error:err.message });
     });
@@ -109,7 +107,7 @@ module.exports = function(app) {
         }
     });
 
-    app.get('/tasks/photo', async function(res, res) {
+    app.get('/tasks/:id/photo', async function(res, res) {
         try {
             let task = await Task.findById(req.params.id);
             if (!task || !task.photo)

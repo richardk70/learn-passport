@@ -13,7 +13,7 @@
     <p class='message'>${msgExists ? `${msgExists}` : `` }</p>
     <div class='row'>
         <div class='cell'>
-            <img src='data:image/jpg;base64,${photo}' width='100' height='120'>
+            <img src='data:image/jpg;base64,${photo}' width='120' height='160'/>
             <div class='small center'>
                 <a id='addEditPhoto'>Add / edit photo</a>
             </div>
@@ -43,7 +43,7 @@
         ${tasks.map(t => `
             <li><div class='row'>
                 <div class='cell task-photo'>
-                    <img src='data:image/jpg;base64,${t.photo}' width='100' height='100'>
+                    <img src="data:image/jpg;base64,${t.photo.toString('base64')}" width='100' height='100'>
                 </div>
                 <div class='cell left'>
                     <span class='description' id='taskContent'>${t.description}</span><br>
@@ -61,32 +61,44 @@
                     </span>
                     <span class='cell green'>
                         <i class='fas fa-camera fa-2x' id='addTaskPhotoBtn'></i>
-                        <p>Add task photo</p>
+                        <p>Edit task photo</p>
                     </span>
                 </div>
             </div>
             </li>
         `).join('')}
         <li><form method='POST' action='/tasks' id='addTasks'>
-            <input id='addDescription' type='text' name='description' placeholder='description' autofocus="autofocus">
+            <input id='addDescription' type='text' name='description' placeholder='description' autofocus="autofocus" required>
             <select name='taskStatus' form='addTasks'>
                 <option value='not started'>Not started</option>
                 <option value='in process'>In process</option>
                 <option value='complete'>Complete</option>
             </select>
-            <button class='green' type='submit'><i class='fas fa-plus-square fa-3x'></i></button>
+            <button class='green addTask' type='submit'><i class='fas fa-plus-square fa-3x'></i></button>
         </form></li>
     </ul>
 
-    <div id='photoModal' class='modal hidden'>
+    <div id='taskPhotoModal' class='modal'>
+        <form method='POST' action='/tasks/photo' enctype="multipart/form-data">
+            <label for='taskNum'>Task ID</label>
+            <input type='text' name='taskNum' id='taskNum' readonly>
+            <label for='photoURL'>Select photo</label>
+            <input type='file' name='photo' id='photoURL'>
+            <input type='submit' value='Use This Photo' id='applyTaskAddPhotoBtn'>
+        </form>
+        <button class='blueBG' id='cancelTaskAddPhotoBtn'>Cancel</button>
+    </div>
+
+    <div id='userPhotoModal' class='modal'>
         <form method='POST' action='/users/photo' enctype="multipart/form-data">
             <label for='photoURL'>Select photo</label>
             <input type='file' name='photo' id='photoURL'>
-            <input type='submit' value='Use this photo'>
+            <input type='submit' value='Use This Photo' id='applyUserAddPhotoBtn'>
         </form>
+        <button class='blueBG' id='cancelUserAddPhotoBtn'>Cancel</button>
     </div>
 
-    <div id='userDeleteModal' class='modal hidden'>
+    <div id='userDeleteModal' class='modal'>
         <form method='POST' action='/users/me'>
             <label for='deleteUser'>Are you sure you want to delete your account?</label><br>
             <button class='redBG' type='submit'>YES. DELETE ACCOUNT</button>
@@ -94,7 +106,7 @@
             <button class='blueBG' id='cancelAccountDeleteBtn'>Yikes! No!</button>
     </div>
 
-    <div id='profileEditModal' class='modal hidden'>
+    <div id='profileEditModal' class='modal'>
         <label for='editName'>Update username:</label><br>
         <input id='editName' type='text' name='name'>
         <label for='editPass1'>Enter new password:</label><br>
@@ -105,7 +117,7 @@
         <button class='blueBG' id='cancelNameEditBtn'>Cancel</button>
     </div>
 
-    <div id='taskEditModal' class='modal hidden'>
+    <div id='taskEditModal' class='modal'>
             <label for='editDescription'>Enter new description:</label><br>
             <input id='editDescription' type='text' name='description'>
             <label for='editStatus'>Enter new status:</label><br>
@@ -118,7 +130,7 @@
             <button class='blueBG' id='cancelTaskEditBtn'>Cancel</button>
     </div>
 
-    <div id='taskDeleteModal' class='modal hidden'>
+    <div id='taskDeleteModal' class='modal'>
         <p>Are you sure you want to delete this task?</p>
         <button class='redBG' id='applyTaskDeleteBtn'>Yes</button>
         <button class='blueBG' id='cancelTaskDeleteBtn'>Oops. No.</button>

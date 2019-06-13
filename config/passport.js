@@ -72,7 +72,7 @@ function(req, email, password1, done) {
                         newUser.name = req.body.name;
                         newUser.email    = email;
                         newUser.password = newUser.setPassword(password1);
-                        newUser.photo = 
+                        newUser.photo = undefined;
 
                         newUser.save(function(err) {
                             if (err)
