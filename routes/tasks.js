@@ -62,7 +62,7 @@ module.exports = function(app) {
             if (!task)
                 res.status(404).send();
                 
-            task.remove();
+            await task.remove();
         } catch (e) {
             res.status(500).send(e);
         }

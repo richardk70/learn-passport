@@ -16,22 +16,25 @@
 </head>
 <body>
     <div id='choices'>
-        <div class='choice' id='div1'>Div 1</div>
-        <div class='choice' id='div2'>Div 2</div>
-        <div class='choice' id='div3'>Div 3</div>
+        <div class='choice class1' id='div1'>Div 1</div>
+        <div class='choice class2' id='div2'>Div 2</div>
+        <div class='choice class3' id='div3'>Div 3</div>
     </div>
-    <div id='fb'></div>
+    <p id='fb'></p>
 
     <script>
         const choicesDiv = document.getElementById('choices');
         const fb = document.getElementById('fb');
-        var choices = document.getElementsByClassName('choice');
+
+        var choices = document.getElementsByClassName('choice'); // array of 3
+        console.log(choices);
+
         choicesDiv.addEventListener('click', (e) => {
-            for (var i = 0; i < choices.length; i++) {
-                if (choices[i].target.id == 'div2')
-                    console.log('second one');
+            for (choice of choices) {
+                if (choice.matches('.class1'))
+                    fb.innerHTML = choice.id;
+                    // console.log(choice.id);
             }
-            //fb.innerHTML = e.target.id;
         });
         
     </script>    
