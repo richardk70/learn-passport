@@ -7,10 +7,18 @@ body {
     flex-direction: row;
 }
 
+.vert {
+    flex-direction: column;
+}
+
 .cell {
     flex: 0 1 auto;
     margin: 4px;
     margin-top: 0;
+}
+
+.cell-100 {
+    min-width: 100px;
 }
 
 .message {
@@ -23,7 +31,28 @@ body {
     text-align: center;
     font-weight: 500;
 }
+.new-message {
+    color: #ddd;
+    background: #222;
+    border-radius: 20px;
+    text-align: center;
+    padding: 4px;
+    cursor: pointer;
+}
+.new-message:hover {
+    color: white;
+    background: black;
+}
 
+.rounded {
+    border-radius: 5px;
+}
+.half {
+    border-radius: 50%;
+}
+.dark {
+    background: #333;
+}
 .small {
     font-size: 0.6rem;
 }
@@ -42,10 +71,15 @@ li {
 
 a {
     cursor: pointer;
+    text-decoration: none;
 }
 
 .left {
-    min-width: 100px;
+    min-width: 200px;
+}
+
+.main {
+    min-width: 80%;
 }
 
 .description {
@@ -66,9 +100,9 @@ button {
     padding: 0;
     background: transparent;
     color: white;
-    font-weight: 600;
+    /* font-weight: 600; */
     border-radius: 4px;
-    margin: 4px;
+    margin: 0;
 }
 
 .addTask {
@@ -81,6 +115,14 @@ button {
 }
 .redBG:hover{
     background: #e41b17;
+}
+
+.cream {
+    color: #fff5ee;
+}
+
+.yellow {
+    color: gold;
 }
 
 .red {
@@ -101,19 +143,32 @@ button {
 .blue:hover {
     color: #737ca1;
 }
-
 .green {
     color: green;
 }
 .green:hover{
     color: lime;
 }
-
 .greenBG {
     background: green;
 }
 .greenBG:hover{
     background: lime;
+}
+.white {
+    color: white;
+}
+
+.message-delete {
+    color: #555;
+    font-size: 1.4rem;
+}
+.message-delete:hover{
+    color: black;
+}
+
+.normal {
+    font-size: 0.9rem;
 }
 
 .modal {
@@ -159,4 +214,20 @@ button {
 
 footer {
     margin-top: 20px;
+}
+
+.outlined {
+    border: 1px solid red;
+}
+
+table {
+    width: 100%;
+}
+th {
+    background-color: black;
+    color: white;
+}
+
+table .striped tr:nth-child(odd) {
+    background-color: #fff;
 }

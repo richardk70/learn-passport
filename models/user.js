@@ -3,7 +3,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcrypt');
-// const jwt = require('jsonwebtoken');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -34,7 +33,8 @@ const userSchema = new Schema({
     isAdmin: {
         type: Boolean,
         default: false
-    }
+    },
+    friends: { type : Array, "default" : [] }
 }, { timestamps: true });
 
  
@@ -44,6 +44,13 @@ userSchema.virtual('tasks', {
     localField: '_id',
     foreignField: 'owner'
 })
+
+// for ownership of messages
+userSchema.virtual('messages', {
+    ref: 'Message',
+    localField: '_id',
+    foreignField: 'to'
+});
 
 userSchema.methods.toJSON = function () {
     const user = this;

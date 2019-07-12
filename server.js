@@ -48,6 +48,7 @@ mongoose.connect(url, { useNewUrlParser: true, useCreateIndex: true });
 // routes
 require('./routes/users.js')(app, passport);
 require('./routes/tasks.js')(app);
+require('./routes/messages.js')(app);
 
 // listen
 app.listen(port, () => {

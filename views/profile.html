@@ -11,23 +11,25 @@
 <body>
     <h1>Profile Page</h1>
     <p class='message'>${msgExists ? `${msgExists}` : `` }</p>
+
     <div class='row'>
         <div class='cell'>
-            <img src='data:image/jpg;base64,${photo}' width='120' height='160'/>
+            <img src='data:image/jpg;base64,${photo}' width='110' height='160'>
             <div class='small center'>
-                <a id='addEditPhoto'>Add / edit photo</a>
+                    <a id='addEditPhoto'>Add / edit photo</a>
             </div>
         </div>
-        <div class='cell'>
-            <div>
-                <span>Username:</span><span id='nameContent'>${name}</span>
-            </div>
-            <div>
-                <span>Email:</span><span>${email}</span>
-            </div>
-        </div>
-        <div class='cell tooltip row'>
-                <span class='btn blue'>
+        <div class='cell row vert'>
+            <div class='cell tooltip row '>
+                <span class='cell'>
+                    <div>
+                        <span>Username:</span><span id='nameContent'>${name}</span>
+                    </div>
+                    <div>
+                        <span>Email:</span><span>${email}</span>
+                    </div>
+                </span>
+                <span class='cell blue'>
                     <i class='fas fa-edit fa-2x' id='editProfileBtn'></i>
                     <p>Edit profile</p>
                 </span>
@@ -35,8 +37,25 @@
                     <i class='fas fa-trash-alt fa-2x' id='delAccountBtn'></i>
                     <p>Delete account</p>
                 </span>
+            </div>
+            
+            <div class='cell tooltip row '>
+                <span class='cell cell-100 rounded dark center'>
+                    <a href='/messages' class='cream'>
+                        <i class='fas fa-envelope fa-2x' style='line-height: 50px;'></i>
+                        <p>My Messages</p>
+                    </a>
+                </span>
+                <span class='cell cell-100 rounded dark center'>
+                    <a href='/friends' class='yellow'>
+                        <i class='fas fa-users fa-2x' style='line-height: 50px;'></i>
+                        <p>My Friends</p>
+                    </a>
+                </span>
+            </div>
         </div>
     </div>
+
     <div><p>${name}'s Tasks</p></div>
     <hr>
     <ul id='task-list'>
@@ -69,13 +88,24 @@
             </li>
         `).join('')}
         <li><form method='POST' action='/tasks' id='addTasks'>
-            <input id='addDescription' type='text' name='description' placeholder='description' autofocus="autofocus" required>
-            <select name='taskStatus' form='addTasks'>
-                <option value='not started'>Not started</option>
-                <option value='in process'>In process</option>
-                <option value='complete'>Complete</option>
-            </select>
-            <button class='green addTask' type='submit'><i class='fas fa-plus-square fa-3x'></i></button>
+            <div class='cell tooltip row'>
+                <span class='cell'>
+                    <input id='addDescription' type='text' name='description' placeholder='description' autofocus="autofocus" required>
+                </span>
+                <span class='cell'>
+                    <select name='taskStatus' form='addTasks'>
+                        <option value='not started'>Not started</option>
+                        <option value='in process'>In process</option>
+                        <option value='complete'>Complete</option>
+                    </select>
+                </span>
+                <span class='cell'>
+                    <button class='green addTask' type='submit'>
+                        <i class='fas fa-plus-square fa-3x'></i>
+                        <p>Add Task</p>
+                    </button>
+                </span>
+            </div>
         </form></li>
     </ul>
 

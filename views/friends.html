@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Learn Passport</title>
+    <script src="https://kit.fontawesome.com/dfc47fead6.js"></script>
+    <link rel='stylesheet' href='../public/css/style.css'>
+</head>
+<body>
+    <h1>My Friends:</h1>
+    <table class='striped normal'>
+        <tr>
+            <th>Name</th>
+            <th>Message</th>
+            <th>Delete</th>
+        </tr>
+        <tr>
+            <td>Richard Keightley</td>
+            <td><i class='fas fa-envelope fa-2x'></i></td>
+            <td><i class='fas fa-trash-alt fa-2x'></i></td>
+        </tr>
+        <tr>
+            <td>Trey Parker</td>
+            <td><i class='fas fa-envelope fa-2x'></i></td>
+            <td><i class='fas fa-trash-alt fa-2x'></i></td>
+        </tr>
+        <tr>
+            <td>Parker Posey</td>
+            <td><i class='fas fa-envelope fa-2x'></i></td>
+            <td><i class='fas fa-trash-alt fa-2x'></i></td>
+        </tr>
+    </table>
+
+    <div class='row'>
+        <div class='new-message' id='inviteFriendsBtn'>Invite more friends</div>
+    </div>
+
+    <p>
+        <span><a href='/'>Home</a></span>
+        <span><a href='/profile'>My Profile</a></span>
+    </p>
+
+    <!-- invite friends modal -->
+    <div class='modal' id='inviteFriendsModal'>
+        <label for='name'>Name:</label><br>
+        <input id='name' type='text' name='name'>
+        <label for='email'>Email:</label><br>
+        <input id='email' type='text' name='email'>
+        <button class='greenBG' id='sendInviteBtn'>Invite Friend/s</button>
+        <button class='redBG' id='cancelInviteBtn'>Cancel</button>
+    </div>
+
+    <script src='../public/js/friends.js'></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Rendering Testing</title>
+    <script src="https://kit.fontawesome.com/dfc47fead6.js"></script>
+    <style>
+        body {
+            user-select: none;
+        }
+        .outlined {
+            border: 1px solid red;
+        }
+        .row {
+            display: flex;
+            flex-direction: row;
+        }
+        .vert {
+            flex-direction: column;
+        }
+        .cell {
+            flex: 0 1 auto;
+            margin: 2px;
+        }
+        .tooltip span {
+
+            max-height: 50px;
+        }
+        .tooltip p {
+            position: relative;
+            top: -10px;
+            left: -33%;
+            border-radius: 4px;
+            background: #fff8c6;
+            color: black;
+            font-size: 0.8rem;
+            text-align: center;
+            box-shadow: 2px 2px 4px black;
+            padding: 4px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .tooltip span:hover p{
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class='row'>
+        <div class='cell'>
+            <img src='data:image/jpg;base64,${photo}' width='120' height='160'/>
+            <div class='small center'>
+                <a id='addEditPhoto'>Add / edit photo</a>
+            </div>
+        </div>
+        <div class='cell'>
+            <div>
+                <span>Username:</span><span id='nameContent'>${name}</span>
+            </div>
+            <div>
+                <span>Email:</span><span>${email}</span>
+            </div>
+        </div>
+        <div class='cell tooltip row'>
+                <span class='btn blue'>
+                    <i class='fas fa-edit fa-2x' id='editProfileBtn'></i>
+                    <p>Edit profile</p>
+                </span>
+                <span class='cell red'>
+                    <i class='fas fa-trash-alt fa-2x' id='delAccountBtn'></i>
+                    <p>Delete account</p>
+                </span>
+        </div>
+    </div>
+
+
+
+</body>
+</html>

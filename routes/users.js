@@ -5,6 +5,7 @@ const fs = require('fs');
 
 const User = require('../models/user');
 const Task = require('../models/task');
+const Message = require('../models/message');
 
 module.exports = function(app, passport) {
 
@@ -88,6 +89,10 @@ app.get('/users', isLoggedIn, async function(req, res) {
         res.status(500).send(e);
     }
 });
+
+app.get('/friends', async function(req, res) {
+    res.render('friends.html');
+})
 
 // UPDATE USER
 app.patch('/users', isLoggedIn, async function(req, res) {
