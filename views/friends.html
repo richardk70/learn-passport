@@ -44,10 +44,18 @@
 
     <!-- invite friends modal -->
     <div class='modal' id='inviteFriendsModal'>
-        <label for='name'>Name:</label><br>
-        <input id='name' type='text' name='name'>
-        <label for='email'>Email:</label><br>
-        <input id='email' type='text' name='email'>
+        <div class='row vert' id='friend-list'>
+            <div class='row'>
+                <span class='cell'>Name (required):</span>
+                <span class='cell'>Email (required):</span>
+            </div>
+            <div class='row'>
+                <span class='cell'><input type='text' name='name-input' autofocus="autofocus" required></span>
+                <span class='cell'><input type='text' name='email-input' required></span>
+            </div>
+        </div>
+        
+        
         <button class='greenBG' id='sendInviteBtn'>Invite Friend/s</button>
         <button class='redBG' id='cancelInviteBtn'>Cancel</button>
     </div>

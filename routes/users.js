@@ -2,6 +2,7 @@
 const multer = require('multer');
 const sharp = require('sharp');
 const fs = require('fs');
+const { sendInviteEmail, sendCancelEmail } = require('../emails/account');
 
 const User = require('../models/user');
 const Task = require('../models/task');
@@ -55,7 +56,6 @@ app.get('/profile', isLoggedIn, async function(req, res) {
             }
         }
 
-        
         if (!req.user.photo) {
             console.log('no profile photo for this user. using default...');
             // set it to the generic image
@@ -92,12 +92,18 @@ app.get('/users', isLoggedIn, async function(req, res) {
 
 app.get('/friends', async function(req, res) {
     res.render('friends.html');
-})
+});
+
+app.post('/friends', async function(req, res) {
+    //console.log(req.user); // this is the logged in user info
+    let friendsToInvite = req.body;
+    for (friend of friendsToInvite) {
+        sendInviteEmail(friend.email, friend.name, req.user.name, req.user.email);        
+    }
+});
 
 // UPDATE USER
 app.patch('/users', isLoggedIn, async function(req, res) {
-    console.log(req.user);
-    console.log(req.body);
     let id = req.user._id;
     let password = req.body.password;
     try {

@@ -16,13 +16,17 @@
 </head>
 <body>
     <div id='choices'>
-        <div class='choice class1' id='div1'>Div 1</div>
-        <div class='choice class2' id='div2'>Div 2</div>
-        <div class='choice class3' id='div3'>Div 3</div>
+        <button class='choice class1' id='div1'>Planets</button>
+        <button class='choice class2' id='div2'>Humans</button>
+        <button class='choice class3' id='div3'>Foods</button>
     </div>
     <p id='fb'></p>
 
     <script>
+        let planets = ['Mercury', 'Mars', 'Earth', 'Neptune', 'Pluto'];
+        let humans = ['Tom', 'Dick', 'Harry', 'Jane', 'Belle', 'Sophie'];
+        let foods = ['Tacos', 'Burritos', 'Pizza', 'Burgers'];
+
         const choicesDiv = document.getElementById('choices');
         const fb = document.getElementById('fb');
 
@@ -30,12 +34,18 @@
         console.log(choices);
 
         choicesDiv.addEventListener('click', (e) => {
-            for (choice of choices) {
-                if (choice.matches('.class1'))
-                    fb.innerHTML = choice.id;
-                    // console.log(choice.id);
-            }
+            console.log(e.target.id);
+            
+                if (e.target.matches('#div1'))
+                    fb.innerHTML = planets;
+                else if (e.target.matches('#div2'))
+                    fb.innerHTML = humans;
+                else if (e.target.matches('#div3'))
+                    fb.innerHTML = foods;
+            
         });
+
+
         
     </script>    
 </body>

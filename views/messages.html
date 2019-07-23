@@ -16,33 +16,33 @@
                 <i class='fas fa-plus fa-2x'></i> New Message
             </div>
             <div><a href='#'>Inbox</a></div>
+            <div><a href='#'>Drafts</a></div>
             <div><a href='#'>Sent</a></div>
             <div><a href='#'>Deleted</a></div>
         </span>
         <span class='cell main'>
-            <table class='striped normal'>
-                <tr>
-                    <th>From</th>
-                    <th>Preview</th>
-                    <th>&nbsp;</th>
-                </tr>
-                <tr>
-                    <td>Richard Keightley</td>
-                    <td>Message 1</td>
-                    <td><i class='fas fa-trash-alt message-delete'></i></td>
-                </tr>
-                <tr>
-                    <td>Robin Keightley</td>
-                    <td>Message 2</td>
-                    <td><i class='fas fa-trash-alt message-delete'></i></td>
-                </tr>
-                <tr>
-                    <td>Daroush Fonata</td>
-                    <td>Message 3</td>
-                    <td><i class='fas fa-trash-alt message-delete'></i></td>
-                </tr>
-        
-                </table>
+                <div class='row fill nowrap vert' id='message-list'>
+                    <span class='row nowrap th'>
+                        <span class='cell'>From</span>
+                        <span class='cell'>To</span>
+                        <span class='cell'>Subject</span> 
+                        <span class='cell'>Date / Time</span>
+                        <span class='cell'>&nbsp;</span>
+                        <span class='cell'>&nbsp;</span>
+                    </span>
+                    ${sentMessages.map((m,i) => `
+
+
+                        <div class='row nowrap'>
+                            <span class='cell'>${m.from}</span>
+                            <span class='cell'>${m.toID}</span>
+                            <span class='cell'>${m.subject}</span>
+                            <span class='cell'>${m.createdAt}</span>
+                            <span class='cell'><i class='fas fa-trash-alt message-delete' id='delMessage${i}'></i></span>
+                            <span class='hidden' id='messageId${i}'>${m._id}</span>
+                        </div>
+                        `).join('')}
+                </div>
         </span>
     </div>
 
@@ -53,14 +53,15 @@
 
     <!-- new message modal -->
     <div class='modal' id='messageModal'>
-            <label for='toField'>To:</label>
-            <input id='toField' type='text' name='to'><br>
-            <label for='subjectField'>Re:</label>
-            <input id='subjectField' type='text' name='subject'>
-            <label for='bodyField'>Body:</label>
-            <input id='bodyField' type='text' name='body'>
-            <button class='greenBG' id='sendMessageBtn'>Send Message</button>
+        <form method='POST' action='/messages' id='addMessage'>
+            <input id='fromField' type='text' name='from'><br>
+            <input id='toField' type='text' name='to' placeholder="To" autofocus='autofocus' required><br>
+            <input id='subjectField' type='text' name='subject' placeholder="Subject"><br>
+            <textarea style='font-family:Arial, Helvetica, sans-serif' id='bodyField' name='body' placeholder="message here" rows='10' cols='22'></textarea><br>
+            <button class='greenBG' id='sendMessageBtn' type='submit'>Send Message</button>
+            <button class='blueBG' id='saveMessageBtn'>Save for later</button>
             <button class='redBG' id='cancelMessageBtn'>Cancel</button>
+        </form>
         </div>
 
     <script src='../public/js/messages.js'></script>

@@ -46,11 +46,11 @@ userSchema.virtual('tasks', {
 })
 
 // for ownership of messages
-userSchema.virtual('messages', {
-    ref: 'Message',
-    localField: '_id',
-    foreignField: 'to'
-});
+// userSchema.virtual('messages', {
+//     ref: 'Message',
+//     localField: '_id',
+//     foreignField: 'toID'
+// });
 
 userSchema.methods.toJSON = function () {
     const user = this;

@@ -8,8 +8,16 @@ const messageSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    fromID: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
+    },
     // the person that RECEIVES the message is the owner
     to: {
+        type: String
+    },
+    toID: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User'
@@ -24,11 +32,22 @@ const messageSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    completed: {
+        type: Boolean,
+        required: false,
+        default: false
+    },
     folder: {
         type: String,
         required: true,
         trim: true
+    },
+    createdAt: {
+        type: String
+    },
+    secsSince1970: {
+        type: Number
     }
-}, { timestamps: true });
+});
 
 module.exports = mongoose.model('Message', messageSchema);
