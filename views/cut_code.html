@@ -1,0 +1,13 @@
+${allMessages.map((m,i) => `
+    <div class='preview-message' id='message${i}'>
+        <div class='row none'>
+            <span class='cell' id='to${i}'>${m.to}</span>
+            <span class='hidden' id='from${i}'>${m.from}</span>
+        </div>
+        <div class='row none'>
+            <span class='cell text09 flex4' id='subject${i}'>${m.subject}</span>
+            <span class='cell text09 timestamps' id='timestamp${i}'>${m.createdAt}</span>
+        </div>
+        <div class='text08 none hidden' id='body${i}'>${m.body}</div>
+    </div> 
+`).join('')}

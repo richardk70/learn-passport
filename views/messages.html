@@ -11,40 +11,32 @@
 <body>
     <h1>My Messages:</h1>
     <div class='row'>
-        <span class='cell left'>
-            <div class='new-message' id='newMessageBtn'>
-                <i class='fas fa-plus fa-2x'></i> New Message
-            </div>
-            <div><a href='#'>Inbox</a></div>
-            <div><a href='#'>Drafts</a></div>
-            <div><a href='#'>Sent</a></div>
-            <div><a href='#'>Deleted</a></div>
+        <div class='new-message' id='newMessageBtn'>
+            <i class='fas fa-plus fa-2x'></i> New Message
+        </div>
+        <div class='cell'>&nbsp;</div>
+    </div>
+    <div class='row' id='container'>
+        <span class='cell flex1' id='folders'>
+            <div class='bordbot1'>Folders</div>
+            <div id='inbox' class='folder folder-active'>Inbox</div>
+            <div id='drafts' class='folder'>Drafts</div>
+            <div id='sent' class='folder'>Sent</div>
+            <div id='deleted' class='folder'>Deleted</div>
         </span>
-        <span class='cell main'>
-                <div class='row fill nowrap vert' id='message-list'>
-                    <span class='row nowrap th'>
-                        <span class='cell'>From</span>
-                        <span class='cell'>To</span>
-                        <span class='cell'>Subject</span> 
-                        <span class='cell'>Date / Time</span>
-                        <span class='cell'>&nbsp;</span>
-                        <span class='cell'>&nbsp;</span>
-                    </span>
-                    ${sentMessages.map((m,i) => `
+        <span class='cell flex2' id='previews'>
+            <div class='bordbot1'>Previews</div>
 
 
-                        <div class='row nowrap'>
-                            <span class='cell'>${m.from}</span>
-                            <span class='cell'>${m.toID}</span>
-                            <span class='cell'>${m.subject}</span>
-                            <span class='cell'>${m.createdAt}</span>
-                            <span class='cell'><i class='fas fa-trash-alt message-delete' id='delMessage${i}'></i></span>
-                            <span class='hidden' id='messageId${i}'>${m._id}</span>
-                        </div>
-                        `).join('')}
-                </div>
+        </span>
+        <span class='cell flex4' id='main'>
+            <div class='bordbot1'>Reading Pane</div>
+
         </span>
     </div>
+
+    <!-- DIV to store message data -->
+    <div class='gone' id='data'>${allMessages}</div>
 
     <p>
         <span><a href='/'>Home</a></span>
@@ -52,16 +44,16 @@
     </p>
 
     <!-- new message modal -->
-    <div class='modal' id='messageModal'>
-        <form method='POST' action='/messages' id='addMessage'>
-            <input id='fromField' type='text' name='from'><br>
-            <input id='toField' type='text' name='to' placeholder="To" autofocus='autofocus' required><br>
-            <input id='subjectField' type='text' name='subject' placeholder="Subject"><br>
-            <textarea style='font-family:Arial, Helvetica, sans-serif' id='bodyField' name='body' placeholder="message here" rows='10' cols='22'></textarea><br>
-            <button class='greenBG' id='sendMessageBtn' type='submit'>Send Message</button>
-            <button class='blueBG' id='saveMessageBtn'>Save for later</button>
-            <button class='redBG' id='cancelMessageBtn'>Cancel</button>
-        </form>
+    <div class='modal' id='newMessageModal'>
+            <form method='POST' action='/messages' id='addMessage'>
+                <input id='fromField' type='text' name='from'><br>
+                <input id='toField' type='text' name='to' placeholder="To" autofocus='autofocus'><br>
+                <input id='subjectField' type='text' name='subject' placeholder="Subject"><br>
+                <textarea style='font-family:Arial, Helvetica, sans-serif' id='bodyField' name='body' placeholder="message here" rows='10' cols='22'></textarea><br>
+                <button class='greenBG' id='sendMessageBtn' type='submit'>Send Message</button>
+                <button class='blueBG' id='saveMessageBtn'>Save for later</button>
+                <button class='redBG' id='cancelMessageBtn'>Cancel</button>
+            </form>
         </div>
 
     <script src='../public/js/messages.js'></script>

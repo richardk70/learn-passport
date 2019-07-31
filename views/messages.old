@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Learn Passport</title>
+    <script src="https://kit.fontawesome.com/dfc47fead6.js"></script>
+    <link rel='stylesheet' href='../public/css/style.css'>
+</head>
+<body>
+    <h1>My Messages:</h1>
+    <div class='row'>
+        <span class='cell left'>
+            <div class='new-message' id='newMessageBtn'>
+                <i class='fas fa-plus fa-2x'></i> New Message
+            </div>
+            <div><a href='#'>Inbox</a></div>
+            <div><a href='#'>Drafts</a></div>
+            <div><a href='#'>Sent</a></div>
+            <div><a href='#'>Deleted</a></div>
+        </span>
+        <span class='cell main'>
+                <div class='row fill nowrap vert' id='message-list'>
+                    <span class='row nowrap th'>
+                        <span class='cell'>From</span>
+                        <span class='cell'>To</span>
+                        <span class='cell'>Subject</span> 
+                        <span class='cell'>Date / Time</span>
+                        <span class='cell'>&nbsp;</span>
+                        <span class='cell'>&nbsp;</span>
+                    </span>
+                    ${sentMessages.map((m,i) => `
+
+
+                        <div class='row nowrap message-line' id='message${i}'>
+                            <span class='cell'>${m.from}</span>
+                            <span class='cell'>${m.to}</span>
+                            <span class='cell'>${m.subject}</span>
+                            <span class='cell'>${m.createdAt}</span>
+                            <span class='cell'><i class='fas fa-trash-alt message-delete' id='delMessage${i}'></i></span>
+                            <span class='hidden' id='messageId${i}'>${m._id}</span>
+                        </div>
+
+                        <!-- read message modal -->
+                        <div class='modal' id='readMessageModal'>
+                            <div class='row'>
+                                <span class='cell'>${m.from}</span>
+                                <span class='cell'>${m.createdAt}</span>
+                            </div>
+                            <div class='row'>
+                                <span class='cell'>${m.body}</span>
+                            </div>
+                            <div class='row' id='btns'>
+                                <button class='blueBG' id='replyMessageBtn'>Reply</button>
+                                <button class='redBG' id='closeMessageBtn'>Close</button>
+                            </div>
+                        </div>
+                        `).join('')}
+                </div>
+        </span>
+    </div>
+
+    <p>
+        <span><a href='/'>Home</a></span>
+        <span><a href='/profile'>My Profile</a></span>
+    </p>
+
+    <!-- new message modal -->
+    <div class='modal' id='newMessageModal'>
+        <form method='POST' action='/messages' id='addMessage'>
+            <input id='fromField' type='text' name='from'><br>
+            <input id='toField' type='text' name='to' placeholder="To" autofocus='autofocus' required><br>
+            <input id='subjectField' type='text' name='subject' placeholder="Subject"><br>
+            <textarea style='font-family:Arial, Helvetica, sans-serif' id='bodyField' name='body' placeholder="message here" rows='10' cols='22'></textarea><br>
+            <button class='greenBG' id='sendMessageBtn' type='submit'>Send Message</button>
+            <button class='blueBG' id='saveMessageBtn'>Save for later</button>
+            <button class='redBG' id='cancelMessageBtn'>Cancel</button>
+        </form>
+    </div>
+    
+    <script src='../public/js/messages.js'></script>
+</body>
+</html>
